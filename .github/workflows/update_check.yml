@@ -35,7 +35,7 @@ jobs:
     outputs:
       SHOULD_BUILD: ${{ steps.should_build.outputs.SHOULD_BUILD }}
 
-  build:
+  build_x64:
     permissions: write-all
     needs: check
     uses: ./.github/workflows/wsa.yml
@@ -43,6 +43,18 @@ jobs:
     secrets: inherit
     with:
       arch: 'x64'
+      release_type: 'Release Preview'
+      gapps_brand: 'MindTheGapps'
+      root_ver: 'Magisk (Stable)'
+      remove_amazon: true
+  build_arm64:
+    permissions: write-all
+    needs: check
+    uses: ./.github/workflows/wsa.yml
+    if: ${{ needs.check.outputs.SHOULD_BUILD == 1 }}
+    secrets: inherit
+    with:
+      arch: 'arm64'
       release_type: 'Release Preview'
       gapps_brand: 'MindTheGapps'
       root_ver: 'Magisk (Stable)'
